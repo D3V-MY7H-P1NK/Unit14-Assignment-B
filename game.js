@@ -19,6 +19,7 @@ var playbutton;
 
 let correctWav;
 let bgWav;
+var question
 
 function preload(){
   // Load Images
@@ -59,13 +60,14 @@ function Question() {
       question = "Question : " + y + options[random_opt] + x
     }
 
-    fill("white");
-    textSize(20);
-    text(question, 730, 32);
+    return question
+    //fill("white");
+    //textSize(20);
+    //text(question, 730, 32);
   }
 
 function button() {
-    const name = input.value();
+    name = input.value();
     if (name == answer){
       let correct = "Correct"
       fill('green');
@@ -134,22 +136,17 @@ function draw(){
   background(img2);
   //background(130,130,255);
   drawSprites()
-  
 
   //block.visible=0
   //Question();
-  if (round == 0){
-    total_score = total_score + 1;
-    Question();
-    questions = 'Question: ' + x;
-    round = 2;
+  if (round == true){
+    question = Question()
+    round = false
+  }
 
-  } //else if (round === 1){
-    //total_score = total_score - 1
-
-  //} else if (round === 2){
-    //
-  //}
+  fill("white");
+  textSize(20);
+  text(question, 730, 32);
 
   let s = 'Score: ' + int(total_score);
   fill('white');
@@ -203,9 +200,10 @@ function keyboardCode(){
   }
 
   if (keyIsDown(90)) {
-    correctWav.play()
-    Question();
+    round = true
+    //correctWav.play()
+    //Question();
     //setVolume(0.5)
-    bgWav.play()
+    //bgWav.play()
   }
 }
