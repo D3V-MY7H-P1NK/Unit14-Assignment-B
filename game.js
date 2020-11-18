@@ -10,7 +10,7 @@ var tries = 3;
 var playerSpeed = 5;
 var jump;
 var questions ;
-var round = 0;
+var round;
 
 let MENU = 0
 var img2;
@@ -55,9 +55,26 @@ function Question() {
     } else if (total_score >= 12 && total_score <= 15){
       question = "Question : " + y + options[3] + x;
       answer = y * x;
-    } else if (total_score >= 16){
+    } else if (total_score >= 16 && total_score <= 19){
       random_opt = Math.floor((Math.random() * 3))
-      question = "Question : " + y + options[random_opt] + x
+      question = "Question : " + y + options[random_opt] + x;
+
+      if (random_opt == 0){
+        answer = y + x;
+        //random_opt = false;
+      } else if (random_opt == 1){
+        answer = y - x;
+        //random_opt = false;
+      } else if (random_opt == 2){
+        answer = y / x;
+        //random_opt = false;
+      } else if (random_opt == 3){
+        answer = y * x;
+        //random_opt = false;
+      }
+
+    } else if (total_score >=20){
+      sprite.destroy();
     }
 
     return question
@@ -128,6 +145,8 @@ function setup(){
   winImg.resize(300,300)
   winner = createSprite(1285,450);
   winner.addImage(winImg);
+
+  round = true;
 }
 
 function draw(){
@@ -161,6 +180,10 @@ function draw(){
   fill("white");
   textSize(20);
   text(questions, 730, 32);
+
+
+  // gravity
+  player.position.y += playerSpeed;
 
   if (player.collide(ground)) {
 
@@ -200,7 +223,6 @@ function keyboardCode(){
   }
 
   if (keyIsDown(90)) {
-    round = true
     //correctWav.play()
     //Question();
     //setVolume(0.5)
