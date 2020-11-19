@@ -77,29 +77,30 @@ function Question() {
       sprite.destroy();
     }
 
-    return question
-    //fill("white");
-    //textSize(20);
-    //text(question, 730, 32);
+    return question;
   }
 
-function button() {
+function submit(button) {
     name = input.value();
     if (name == answer){
-      let correct = "Correct"
-      fill('green');
-      textSize(20);
-      text(correct, 50, 60);
-      input.value('');
-      Question();
+      check = "Correct"
+      //fill('green');
+      //textSize(20);
+      //text(check, 50, 60);
+      //input.value('');
+      //Question();
     } else if (name != answer){
-      let incorrect = "Incorrect"
-      fill('red');
-      textSize(20);
-      text(incorrect, 50, 60);
-      input.value('');
-      Question();
+      check = "Incorrect"
+      //fill('red');
+      //textSize(20);
+      //text(check, 50, 60);
+      //input.value('');
+      //Question();
     }
+
+    input.value('');
+    round = true
+    return check;
   }
   
 
@@ -140,7 +141,6 @@ function setup(){
 
   button = createButton('submit');
   button.position(input.x + input.width, 65);
-  button.mousePressed(button);
 
   winImg.resize(300,300)
   winner = createSprite(1285,450);
@@ -163,6 +163,21 @@ function draw(){
     round = false
   }
 
+  check = button.mousePressed(submit);
+
+  if (check == 'Correct'){
+    fill('green');
+    //await sleep(25)
+  } else if (check == 'Incorrect'){
+    fill('red');
+    //await sleep(25)
+  }
+
+  // Display Correct or False
+  textSize(20)
+  text(check, 730, 110);
+
+  // Displays Question on screen
   fill("white");
   textSize(20);
   text(question, 730, 32);
