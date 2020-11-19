@@ -83,22 +83,13 @@ function Question() {
 function submit(button) {
     name = input.value();
     if (name == answer){
-      check = "Correct"
-      //fill('green');
-      //textSize(20);
-      //text(check, 50, 60);
-      //input.value('');
-      //Question();
+      check = 1
     } else if (name != answer){
-      check = "Incorrect"
-      //fill('red');
-      //textSize(20);
-      //text(check, 50, 60);
-      //input.value('');
-      //Question();
+      check = 2
     }
 
     input.value('');
+    console.log(check);
     round = true
     return check;
   }
@@ -165,14 +156,16 @@ function draw(){
 
   check = button.mousePressed(submit);
 
-  if (check == 'Correct'){
+  if (check == 1){
+    check = 'Correct';
     fill('green');
     //await sleep(25)
-  } else if (check == 'Incorrect'){
+  } else if (check == 2){
+    check = 'Incorrect'
     fill('red');
     //await sleep(25)
   }
-
+  //console.log(check);
   // Display Correct or False
   textSize(20)
   text(check, 730, 110);
