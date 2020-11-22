@@ -1,3 +1,5 @@
+
+var gameStarted = false;
 var total_score = 0;
 var bgImg;
 var player;
@@ -19,7 +21,10 @@ var playbutton;
 
 let correctWav;
 let bgWav;
-var question
+var question;
+var check;
+var correct_incorrect;
+var wrong;
 
 function preload(){
   // Load Images
@@ -83,20 +88,36 @@ function Question() {
 function submit(button) {
     name = input.value();
     if (name == answer){
-      check = 1
+      check = "Correct"
+      total_score = total_score + 1;
     } else if (name != answer){
-      check = 2
+      check = "Incorrect"
+      wrong = wrong + 1;
+      if (wrong == 4){
+        tries = tries - 1;
+        wrong = 0
+      }
     }
 
     input.value('');
     console.log(check);
     round = true
-    return check;
   }
   
+function gameEnd() {
+  fill(255);  
+  text("GAME OVER", width/2-60, height/2);
+  text("YOU GOT ", str(total_score) , " QUESTIONS CORRECT :)", width/2-60, height/2+60); 
+}
 
 function setup(){
   createCanvas(1500, 600);
+  background (0);
+
+  if (gameStarted === false){
+    fill(255);  
+    text("Press RETURN TO START", width/2-60, height/2);
+  }
 
   // Ground Info
   groundImg.resize(4000,100);
@@ -142,30 +163,29 @@ function setup(){
 
 function draw(){
 
+  if (gameStarted === true) {
+
   frameRate(144);
   background(img2);
-  //background(130,130,255);
   drawSprites()
 
-  //block.visible=0
-  //Question();
   if (round == true){
     question = Question()
     round = false
   }
 
-  check = button.mousePressed(submit);
-
-  if (check == 1){
-    check = 'Correct';
-    fill('green');
-    //await sleep(25)
-  } else if (check == 2){
-    check = 'Incorrect'
-    fill('red');
-    //await sleep(25)
+  if (tries == 0){
+    
   }
-  //console.log(check);
+
+  button.mousePressed(submit)
+
+  if (check == "Correct"){
+    fill('green');
+  } else if (check == "Incorrect"){
+    fill('red');
+  }
+
   // Display Correct or False
   textSize(20)
   text(check, 730, 110);
@@ -175,48 +195,50 @@ function draw(){
   textSize(20);
   text(question, 730, 32);
 
+  // Displays Users Score
   let s = 'Score: ' + int(total_score);
   fill('white');
   textSize(15);
   text(s, 10, 20);
 
+  // Displays Users Trys Left
   let t = 'Tries: ' + int(tries);
   fill('red');
   textSize(15);
   text(t, 10, 40);
 
-  fill("white");
-  textSize(20);
-  text(questions, 730, 32);
+  //fill("white");
+  //textSize(20);
+  //text(questions, 730, 32);
 
 
   // gravity
   player.position.y += playerSpeed;
 
+  // Gravity Jump
   if (player.collide(ground)) {
-
-    //allow jumping again
     jump = false;
-    
   }
-  //player is not colliding with the ground
   else {
-    //gravity accelerates the movement speed
     playerSpeed ++;
   }
   
   
-  drawSprites()
+  //drawSprites()
   keyboardCode()
+  }
 }
+
 function keyboardCode(){
   
   if (keyIsDown(LEFT_ARROW)) {
-    player.position.x -= 5;
+    player.position.x -= 2;
+    player.mirrorX(1);
   }
 
   if (keyIsDown(RIGHT_ARROW)) {
-    player.position.x += 5;
+    player.position.x += 2;
+    player.mirrorX(-1);
   }
 
   if (keyIsDown(UP_ARROW) && keyIsPressed===true && jump === false) {
@@ -235,5 +257,14 @@ function keyboardCode(){
     //Question();
     //setVolume(0.5)
     //bgWav.play()
+  }
+}
+
+function keyPressed() {
+  
+  if (keyCode === RETURN) {
+    
+    clear();  // clears any shapes, text 
+    gameStarted = true;
   }
 }
