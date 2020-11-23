@@ -24,6 +24,7 @@ var question;
 var check;
 var correct_incorrect;
 var wrong = 0;
+var restart = true;
 
 function preload(){
   // Load Images
@@ -34,6 +35,7 @@ function preload(){
   groundImg = loadImage("assets/images/floor.jpg");
   bouldersImg = loadImage("assets/images/b_rock.png");
   winImg = loadImage("assets/images/trophy.png");
+  game_name = loadImage("assets/images/menu/game_name.png")
 
   // Load Sounds
   correctWav = loadSound("assets/sounds/bell.wav"); // Correct Bell 
@@ -42,7 +44,7 @@ function preload(){
 
 function Question() {
 
-    var options = [" + ", " - ", " ÷ ", " x "]
+    var options = [" + ", " - ", " / ", " x "]
 
     x = Math.floor((Math.random() * 10) + 1);
     y = Math.floor((Math.random() * 100) + 1);
@@ -97,10 +99,19 @@ function submit(button) {
     round = true
   }
   
-function gameEnd() {
+function gameEnd(total_score) {
+  background('black');
+
+  textSize(20);
   fill(255);  
   text("GAME OVER", width/2-60, height/2);
-  text("YOU GOT ", str(total_score) , " QUESTIONS CORRECT :)", width/2-60, height/2+60); 
+
+  feed = "YOU GOT " + str(total_score) + " QUESTIONS CORRECT :)";
+  text(feed, width/2-60, height/2+60);
+  text("Click enter to play again", 100, 100)
+  
+  gameStarted = false;
+  restart = true;
 }
 
 function setup(){
@@ -108,10 +119,11 @@ function setup(){
   background (0);
 
   if (gameStarted === false){
-    textSize(50);
     fill(255);  
-    text("Math Mine", 100, 50);
-    textSize(10);
+    logo = createSprite(830, 200);
+    logo.addImage(game_name);
+    drawSprite(logo);
+    textSize(20);
     text("Press RETURN TO START", width/2-60, height/2);
   }
 
@@ -122,27 +134,23 @@ function setup(){
   
   // Player Info
   playerImg.resize(100,100);
-  //player = createSprite(450,510);
   player = createSprite(50,505);
   player.addImage(playerImg);
 
+  // Rock Info
   bouldersImg.resize(200,200);
 
   bou1 = createSprite(300,450);
   bou1.addImage(bouldersImg);
-  //bou1.setCollider("circle",0,0,40);
 
   bou2 = createSprite(460,450);
   bou2.addImage(bouldersImg);
-  //bou2.setCollider("circle",0,0,40);
 
   bou3 = createSprite(620,450);
   bou3.addImage(bouldersImg);
- // bou3.setCollider("circle",0,0,40);
 
   bou4 = createSprite(780,450);
   bou4.addImage(bouldersImg);
-  //bou4.setCollider("circle",0,0,40);
 
   input = createInput();
   input.position(730, 65);
@@ -189,7 +197,7 @@ function draw(){
       wrong = 0
     }
     if (tries <= 0){
-      gameEnd();
+      gameEnd(total_score);
     }
     check = 'Incorrect'
   }
@@ -271,8 +279,13 @@ function keyboardCode(){
 function keyPressed() {
   
   if (keyCode === RETURN) {
-    
-    clear();  // clears any shapes, text 
+    clear();
     gameStarted = true;
+    if (restart === true){
+      logo.remove();
+      tries = 3;
+      total_score = 0;
+      restart = False
+    }
   }
 }
