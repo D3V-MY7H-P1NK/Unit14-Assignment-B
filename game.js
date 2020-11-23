@@ -24,7 +24,7 @@ let bgWav;
 var question;
 var check;
 var correct_incorrect;
-var wrong;
+var wrong = 0;
 
 function preload(){
   // Load Images
@@ -88,15 +88,9 @@ function Question() {
 function submit(button) {
     name = input.value();
     if (name == answer){
-      check = "Correct"
-      total_score = total_score + 1;
+      check = 1
     } else if (name != answer){
-      check = "Incorrect"
-      wrong = wrong + 1;
-      if (wrong == 4){
-        tries = tries - 1;
-        wrong = 0
-      }
+      check = 2
     }
 
     input.value('');
@@ -115,7 +109,10 @@ function setup(){
   background (0);
 
   if (gameStarted === false){
+    textSize(50);
     fill(255);  
+    text("Math Mine", 100, 50);
+    textSize(10);
     text("Press RETURN TO START", width/2-60, height/2);
   }
 
@@ -159,13 +156,14 @@ function setup(){
   winner.addImage(winImg);
 
   round = true;
+
 }
 
 function draw(){
 
   if (gameStarted === true) {
 
-  frameRate(144);
+  frameRate(60);
   background(img2);
   drawSprites()
 
@@ -180,10 +178,21 @@ function draw(){
 
   button.mousePressed(submit)
 
-  if (check == "Correct"){
+  if (check == 1){
     fill('green');
-  } else if (check == "Incorrect"){
+    check = 'Correct'
+    total_score = total_score + 1;
+  } else if (check == 2){
     fill('red');
+    wrong = wrong + 1;
+    if (wrong == 4){
+      tries = tries - 1;
+      wrong = 0
+    }
+    if (tries <= 0){
+      gameEnd();
+    }
+    check = 'Incorrect'
   }
 
   // Display Correct or False
@@ -207,9 +216,9 @@ function draw(){
   textSize(15);
   text(t, 10, 40);
 
-  //fill("white");
-  //textSize(20);
-  //text(questions, 730, 32);
+  player.collide(bou1);
+
+
 
 
   // gravity
