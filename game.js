@@ -72,7 +72,7 @@ function Question() {
         answer = y - x;
         //random_opt = false;
       } else if (random_opt == 2){
-        answer = y / x;
+        answer = y % x;
         //random_opt = false;
       } else if (random_opt == 3){
         answer = y * x;
