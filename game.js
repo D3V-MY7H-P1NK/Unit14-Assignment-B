@@ -6,7 +6,6 @@ var player;
 var playerImg;
 var wallsImg;
 var size;
-var shownScreen = 1;
 var correct;
 var tries = 3;
 var playerSpeed = 5;
@@ -129,8 +128,8 @@ function setup(){
 
   bouldersImg.resize(200,200);
 
-  boul = createSprite(300,450);
-  boul.addImage(bouldersImg);
+  bou1 = createSprite(300,450);
+  bou1.addImage(bouldersImg);
   //bou1.setCollider("circle",0,0,40);
 
   bou2 = createSprite(460,450);
@@ -217,9 +216,9 @@ function draw(){
   text(t, 10, 40);
 
   player.collide(bou1);
-
-
-
+  player.collide(bou2);
+  player.collide(bou3);
+  player.collide(bou4);
 
   // gravity
   player.position.y += playerSpeed;
