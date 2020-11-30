@@ -53,21 +53,20 @@ function Question() {
       question = "Question : " + y + options[0] + x;
       answer = y + x;
     } else if (total_score >= 4 && total_score <= 6){
-
-      //while (bou1.position.y <= 460){
-      //    bou1.position.y -= 5;
-      //} 
-
+      bou1.remove();
       question = "Question : " + y + options[1] + x;
       answer = y - x;
     } else if (total_score >= 7 && total_score <= 11){
+      bou2.remove();
       question = "Question : " + y + options[2] + x;
       answer_unround = y / x;
       answer = Math.floor(answer_unround);
     } else if (total_score >= 12 && total_score <= 15){
+      bou3.remove();
       question = "Question : " + y + options[3] + x;
       answer = y * x;
     } else if (total_score >= 16 && total_score <= 19){
+      bou4.remove();
       random_opt = Math.floor((Math.random() * 3))
       question = "Question : " + y + options[random_opt] + x;
 
