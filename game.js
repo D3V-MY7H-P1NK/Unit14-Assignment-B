@@ -7,7 +7,7 @@ var playerImg;
 var wallsImg;
 var size;
 var correct;
-var tries = 3;
+var tries;
 var playerSpeed = 5;
 var jump;
 var questions ;
@@ -104,6 +104,11 @@ function submit(button) {
 function gameEnd(total_score) {
   background('black');
 
+  if (bgWav.isPlaying()) {
+    bgWav.stop();
+    console.log("Game Over. Music Paused.")
+  }
+
   textSize(20);
   fill(255);  
   text("GAME OVER", width/2-60, height/2);
@@ -193,11 +198,7 @@ function draw(){
     total_score = total_score + 1;
   } else if (check == 2){
     fill('red');
-    wrong = wrong + 1;
-    if (wrong == 4){
-      tries = tries - 1;
-      wrong = 0
-    }
+    tries = tries - 1;
     if (tries <= 0){
       gameEnd(total_score);
     }
@@ -239,6 +240,15 @@ function draw(){
   }
   else {
     playerSpeed ++;
+  }
+
+  // Sound
+  
+
+  if (bgWav.isPlaying()) {
+    console.log("Sound Is Already Playing")
+  } else {
+    bgWav.play();
   }
   
   
@@ -285,7 +295,7 @@ function keyPressed() {
     gameStarted = true;
     if (restart === true){
       logo.remove();
-      tries = 3;
+      tries = 5;
       total_score = 0;
       restart = False
     }
