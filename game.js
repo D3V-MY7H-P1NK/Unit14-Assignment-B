@@ -29,8 +29,6 @@ var restart = true;
 function preload(){
   // Load Images
   img2 = loadImage("assets/images/menu_screen.jpg");
-  title = loadImage("assets/images/menu/logo_title.png");
-  bgImg = loadImage("assets/images/background.jpg"); 
   playerImg = loadImage("assets/images/player.png");
   groundImg = loadImage("assets/images/floor.jpg");
   bouldersImg = loadImage("assets/images/b_rock.png");
@@ -53,19 +51,23 @@ function Question() {
       question = "Question : " + y + options[0] + x;
       answer = y + x;
     } else if (total_score >= 4 && total_score <= 6){
+      bou1.position.y = 100
       bou1.remove();
       question = "Question : " + y + options[1] + x;
       answer = y - x;
     } else if (total_score >= 7 && total_score <= 11){
+      bou2.position.y = 100
       bou2.remove();
       question = "Question : " + y + options[2] + x;
       answer_unround = y / x;
       answer = Math.floor(answer_unround);
     } else if (total_score >= 12 && total_score <= 15){
+      bou3.position.y = 100
       bou3.remove();
       question = "Question : " + y + options[3] + x;
       answer = y * x;
     } else if (total_score >= 16 && total_score <= 19){
+      bou4.position.y = 100
       bou4.remove();
       random_opt = Math.floor((Math.random() * 3))
       question = "Question : " + y + options[random_opt] + x;
@@ -116,6 +118,10 @@ function gameEnd(total_score) {
   feed = "YOU GOT " + str(total_score) + " QUESTIONS CORRECT :)";
   text(feed, width/2-60, height/2+60);
   text("Click enter to play again", 100, 100)
+
+  if (total_score <= 20){
+    text("Congrats on getting the trophy", 200, 200)
+  }
   
   gameStarted = false;
   restart = true;
