@@ -192,8 +192,10 @@ function draw(){
     round = false
   }
 
-  if (tries == 0){
-    
+  if (player.position.y > 580){
+    console.log("OUT OF BOUNDS")
+    player.position.y = 505
+    player.position.x = 50
   }
 
   button.mousePressed(submit)
